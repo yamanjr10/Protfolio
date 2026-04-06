@@ -11,7 +11,8 @@ import Contact from './components/Contact/Contact';
 import Footer from './components/Footer/Footer';
 import BackToTop from './components/BackToTop/BackToTop';
 import Loading from './components/Loading/Loading';
-import ScrollToTop from './components/ScrollToTop/ScrollToTop'; // Add this import
+import ScrollToTop from './components/ScrollToTop/ScrollToTop';
+import WhatsApp from './components/WhatsApp/WhatsApp';
 import { useScrollActive } from './hooks/useScrollActive';
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
       })
       .then(data => {
         setConfig(data);
+        setLoading(false);
       })
       .catch(error => {
         console.error('Error loading config:', error);
@@ -72,7 +74,7 @@ function App() {
 
   return (
     <ThemeProvider>
-      <ScrollToTop /> {/* Add this component here */}
+      <ScrollToTop />
       
       {!showContent && (
         <Loading onLoadingComplete={handleLoadingComplete} />
@@ -101,6 +103,7 @@ function App() {
             </main>
             <Footer />
             <BackToTop />
+            <WhatsApp />
           </>
         )}
       </div>

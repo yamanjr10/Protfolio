@@ -7,7 +7,7 @@ export const skillsData = {
         { name: 'HTML5', level: 'advanced', years: 2, percent: 90 },
         { name: 'CSS3', level: 'intermediate', years: 2, percent: 60 },
         { name: 'JavaScript', level: 'beginner', years: 1, percent: 40 },
-        { name: 'React', level: 'beginner', years: 1, percent: 30 },
+        { name: 'React', level: 'beginner', years: 1, percent: 20 },
       ]
     },
     {

@@ -1,4 +1,4 @@
-// Footer.jsx - With Scroll Reveal
+// components/Footer/Footer.jsx
 import React from 'react';
 import './Footer.css';
 
@@ -23,6 +23,15 @@ const Footer = () => {
             <a href="#projects" className="footer-link">Projects</a>
             <span className="footer-separator">•</span>
             <a href="#contact" className="footer-link">Contact</a>
+            <span className="footer-separator">•</span>
+            <a 
+              href="https://wa.me/9779713512703" 
+              target="_blank" 
+              rel="noopener noreferrer" 
+              className="footer-link"
+            >
+              <i className="fab fa-whatsapp"></i> WhatsApp
+            </a>
           </div>
         </div>
       </div>

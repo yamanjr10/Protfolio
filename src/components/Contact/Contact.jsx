@@ -1,4 +1,4 @@
-// Contact.jsx - With Scroll Reveal
+// components/Contact/Contact.jsx
 import React, { useEffect, useState } from 'react';
 import { isValidEmail } from '../../utils/helpers';
 import './Contact.css';
@@ -76,6 +76,26 @@ const Contact = ({ id }) => {
                   <span className="contact-label">Location</span>
                   <span className="contact-value">{social.location}</span>
                 </div>
+              </div>
+            </div>
+
+            {/* WhatsApp Contact Card */}
+            <div className="whatsapp-contact-card">
+              <div className="whatsapp-contact-icon">
+                <i className="fab fa-whatsapp"></i>
+              </div>
+              <div className="whatsapp-contact-content">
+                <h4>Quick Response on WhatsApp</h4>
+                <p>Get instant replies. I'm usually online!</p>
+                <a 
+                  href="https://wa.me/9779713512703?text=Hi!%20I%20visited%20your%20portfolio%20and%20have%20a%20question."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="whatsapp-contact-btn"
+                >
+                  <i className="fab fa-whatsapp"></i>
+                  Chat on WhatsApp
+                </a>
               </div>
             </div>
 

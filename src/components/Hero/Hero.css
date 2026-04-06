@@ -227,3 +227,91 @@
     justify-content: center;
   }
 }
+
+.hero-btn-whatsapp {
+  background: linear-gradient(135deg, #25D366, #128C7E);
+  color: white;
+}
+
+.hero-btn-whatsapp:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(37, 211, 102, 0.4);
+  color: white;
+}
+
+/* Add/Replace in Hero.css - Matching About.css typing style */
+
+.hero-typing-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  animation: fadeInUp 0.6s ease 0.15s backwards;
+}
+
+.hero-typing-prefix {
+  font-size: var(--font-size-xl);
+  color: var(--color-text-secondary);
+  font-weight: var(--font-weight-medium);
+}
+
+.hero-typing-wrapper {
+  display: inline-flex;
+  align-items: center;
+  position: relative;
+}
+
+.hero-typing-role {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  min-width: 200px;
+  text-align: left;
+}
+
+[data-theme="dark"] .hero-typing-cursor {
+  background: var(--color-primary-light);
+  box-shadow: 0 0 10px var(--color-primary);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .hero-typing-prefix {
+    font-size: var(--font-size-lg);
+  }
+  
+  .hero-typing-role {
+    font-size: var(--font-size-lg);
+    min-width: 150px;
+  }
+  
+  .hero-typing-cursor {
+    height: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-typing-section {
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .hero-typing-prefix {
+    font-size: var(--font-size-md);
+  }
+  
+  .hero-typing-role {
+    font-size: var(--font-size-md);
+    min-width: 130px;
+    text-align: center;
+  }
+  
+  .hero-typing-cursor {
+    height: 20px;
+  }
+}
