@@ -1,0 +1,22 @@
+{
+  "links": [
+    {
+      "platform": "GitHub",
+      "url": "https://github.com/yamanjr10",
+      "icon": "Github"
+    },
+    {
+      "platform": "Facebook",
+      "url": "https://www.facebook.com/yamanjr101",
+      "icon": "Facebook"
+    },
+    {
+      "platform": "Instagram",
+      "url": "https://instagram.com/yamanjr101",
+      "icon": "Instagram"
+    }
+  ],
+  "email": "jryaman100@gmail.com",
+  "location": "Nepal",
+  "calendarUrl": ""
+}
