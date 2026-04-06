@@ -8,7 +8,7 @@
       "techStack": ["HTML", "CSS", "Javascript"],
       "liveUrl": "https://jreditz.netlify.app/",
       "githubUrl": "https://github.com/yamanjr10/JrEditz",
-      "featured": false
+      "status": "completed"
     },
     {
       "id": 2,
@@ -18,38 +18,47 @@
       "techStack": ["HTML", "CSS", "Javascript", "Node.js", "MongoDB"],
       "liveUrl": "https://ani-pulse.netlify.app/",
       "githubUrl": "https://github.com/yamanjr10/AniPulse",
-      "featured": false
+      "status": "live"
     },
     {
       "id": 3,
       "title": "Shark Game - 2D Platformer",
-      "description": "A comprehensive, accessible component library built with React and Storybook. Used across multiple enterprise applications.",
+      "description": "An exciting 2D platformer game where you control a shark through various obstacles and challenges.",
       "image": "/assets/images/projects/shark-game.png",
       "techStack": ["HTML", "CSS", "Javascript"],
       "liveUrl": "https://shark-game1.netlify.app/",
       "githubUrl": "https://github.com/yamanjr10/Shark-Game",
-      "featured": false
+      "status": "completed"
     },
-      {
-        "id": 4,
-        "title": "Regina Shoe Center - E-commerce Website",
-        "description": "Regina Shoe Center is a modern e-commerce platform for selling shoes online. With a user-friendly interface and seamless shopping experience, customers can easily browse, select, and purchase their favorite footwear.",
-        "image": "/assets/images/projects/regina-shoe.png",
-        "techStack": ["HTML", "CSS", "Javascript", "React", "Node.js", "Firebase"],
-        "liveUrl": "not-found or not online yet",
-        "githubUrl": "https://github.com/yamanjr10/Regina-Shoe-Center",
-        "featured": false
-      },
-      {
-        "id": 5,
-        "title": "Manga Hub - Manga Tracker",
-        "description": "Manga Hub is a comprehensive manga tracking application that allows users to browse, search, and manage their manga collections. With detailed information about each manga, users can track their reading progress and discover new titles.",
-        "image": "/assets/images/projects/manga-hub.png",
-        "techStack": ["HTML", "CSS", "Javascript"],
-        "liveUrl": "https://manga-hub1.netlify.app/",
-        "githubUrl": "https://github.com/yamanjr10/Manga-Hub",
-        "featured": false
-      }
-
+    {
+      "id": 4,
+      "title": "Regina Shoe Center - E-commerce Website",
+      "description": "Regina Shoe Center is a modern e-commerce platform for selling shoes online. With a user-friendly interface and seamless shopping experience, customers can easily browse, select, and purchase their favorite footwear.",
+      "image": "/assets/images/projects/regina-shoe.png",
+      "techStack": ["HTML", "CSS", "Javascript", "React", "Node.js", "Firebase"],
+      "liveUrl": "#",
+      "githubUrl": "https://github.com/yamanjr10/Regina-Shoe-Center",
+      "status": "development"
+    },
+    {
+      "id": 5,
+      "title": "Manga Hub - Manga Tracker",
+      "description": "Manga Hub is a comprehensive manga tracking application that allows users to browse, search, and manage their manga collections. With detailed information about each manga, users can track their reading progress and discover new titles.",
+      "image": "/assets/images/projects/manga-hub.png",
+      "techStack": ["HTML", "CSS", "Javascript"],
+      "liveUrl": "https://manga-hub1.netlify.app/",
+      "githubUrl": "https://github.com/yamanjr10/Manga-Hub",
+      "status": "live"
+    },
+    {
+      "id": 6,
+      "title": "AnimeX - Anime Streaming Platform",
+      "description": "AnimeX is a modern anime streaming platform that offers a vast collection of anime series and movies. With a user-friendly interface and high-quality streaming, users can enjoy their favorite anime anytime, anywhere.",
+      "image": "/assets/images/projects/anime-x.png",
+      "techStack": ["HTML", "CSS", "Javascript", "React", "Node.js", "MongoDB"],
+      "liveUrl": "#",
+      "githubUrl": "https://github.com/yamanjr10/AnimeX",
+      "status": "development"
+    }
   ]
 }

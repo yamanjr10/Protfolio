@@ -1,4 +1,4 @@
-// Footer.jsx
+// Footer.jsx - With Scroll Reveal
 import React from 'react';
 import './Footer.css';
 
@@ -6,12 +6,12 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="footer">
+    <footer className="footer reveal">
       <div className="container">
         <div className="footer-content">
           <p className="footer-copyright">
             © {currentYear} Yaman Chapagain. Crafted with 
-            <span className="footer-heart">❤️</span> 
+            <i className="fas fa-heart"></i> 
             in Nepal
           </p>
           

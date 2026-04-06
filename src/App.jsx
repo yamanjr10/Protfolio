@@ -11,6 +11,7 @@ import Contact from './components/Contact/Contact';
 import Footer from './components/Footer/Footer';
 import BackToTop from './components/BackToTop/BackToTop';
 import Loading from './components/Loading/Loading';
+import ScrollToTop from './components/ScrollToTop/ScrollToTop'; // Add this import
 import { useScrollActive } from './hooks/useScrollActive';
 
 function App() {
@@ -40,6 +41,18 @@ function App() {
 
   const handleLoadingComplete = () => {
     setShowContent(true);
+    // Trigger scroll reveal after content is shown
+    setTimeout(() => {
+      const reveals = document.querySelectorAll('.reveal');
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('active');
+          }
+        });
+      }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+      reveals.forEach(reveal => observer.observe(reveal));
+    }, 100);
   };
 
   if (!config && !loading) {
@@ -59,6 +72,8 @@ function App() {
 
   return (
     <ThemeProvider>
+      <ScrollToTop /> {/* Add this component here */}
+      
       {!showContent && (
         <Loading onLoadingComplete={handleLoadingComplete} />
       )}

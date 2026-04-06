@@ -1,4 +1,4 @@
-// About.jsx - With Typing Animation for Name
+// About.jsx - With Scroll Reveal & Typing Animation
 import React, { useEffect, useState } from 'react';
 import './About.css';
 
@@ -31,18 +31,17 @@ const About = ({ id }) => {
     const tick = () => {
       if (isDeleting) {
         setDisplayName(fullText.substring(0, displayName.length - 1));
-        setTypingSpeed(100); // Faster when deleting
+        setTypingSpeed(100);
       } else {
         setDisplayName(fullText.substring(0, displayName.length + 1));
-        setTypingSpeed(150); // Normal speed when typing
+        setTypingSpeed(150);
       }
 
-      // When deletion is complete
       if (!isDeleting && displayName === fullText) {
         setTimeout(() => {
           setIsDeleting(true);
           setTypingSpeed(100);
-        }, 3000); // Wait 3 seconds before deleting
+        }, 3000);
       } else if (isDeleting && displayName === '') {
         setIsDeleting(false);
         setLoopNum(loopNum + 1);
@@ -57,90 +56,72 @@ const About = ({ id }) => {
   if (!about || !profile) return null;
 
   return (
-    <section id={id} className="about">
+    <section id={id} className="about reveal">
       <div className="container">
         <div className="section-header">
-          <span className="section-subtitle">Get to know me</span>
+          <span className="section-subtitle">
+            <i className="fas fa-user-astronaut"></i>
+            Get to know me
+          </span>
           <h2 className="section-title">About Me</h2>
+          <div className="section-line"></div>
         </div>
 
-        <div className="about-grid">
+        <div className="about-grid stagger-children">
           <div className="about-card about-card-large">
-            <div className="about-card-content">
-              <div className="about-profile">
-                <div className="about-image-wrapper">
-                  <img 
-                    src={profile.photo} 
-                    alt={profile.name}
-                    className="about-image"
-                  />
-                  <div className="about-image-overlay">
-                    <span className="about-image-text">{profile.name}</span>
+            <div className="about-profile">
+              <div className="about-image-wrapper">
+                <img src={profile.photo} alt={profile.name} className="about-image" />
+              </div>
+              <div className="about-info">
+                <h3 className="about-name typing-animation">
+                  {displayName}
+                  <span className="typing-cursor"></span>
+                </h3>
+                <p className="about-role">{profile.role}</p>
+                <div className="about-details">
+                  <div className="about-detail-item">
+                    <span className="detail-label">Age</span>
+                    <span className="detail-value">{profile.age}</span>
                   </div>
-                </div>
-                
-                <div className="about-info">
-                  <h3 className="about-name typing-animation">
-                    {displayName}
-                    <span className="typing-cursor"></span>
-                  </h3>
-                  <p className="about-role">{profile.role}</p>
-                  <div className="about-details">
-                    <div className="about-detail-item">
-                      <span className="detail-label">Age</span>
-                      <span className="detail-value">{profile.age}</span>
-                    </div>
-                    <div className="about-detail-item">
-                      <span className="detail-label">Location</span>
-                      <span className="detail-value">{profile.location}</span>
-                    </div>
+                  <div className="about-detail-item">
+                    <span className="detail-label">Location</span>
+                    <span className="detail-value">{profile.location}</span>
                   </div>
                 </div>
               </div>
-              
-              <p className="about-bio">{about.bio}</p>
             </div>
+            <p className="about-bio">{about.bio}</p>
           </div>
 
           <div className="about-card">
             <div className="about-card-header">
               <div className="card-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
-                </svg>
+                <i className="fas fa-bullseye"></i>
               </div>
               <h3>Goals</h3>
             </div>
-            <div className="about-card-body">
-              <ul className="goals-list">
-                {about.goals.map((goal, index) => (
-                  <li key={index} className="goal-item">
-                    <span className="goal-number">{String(index + 1).padStart(2, '0')}</span>
-                    <span className="goal-text">{goal}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <ul className="goals-list">
+              {about.goals.map((goal, index) => (
+                <li key={index} className="goal-item">
+                  <span className="goal-number">{String(index + 1).padStart(2, '0')}</span>
+                  <span className="goal-text">{goal}</span>
+                </li>
+              ))}
+            </ul>
           </div>
 
           <div className="about-card about-card-full">
             <div className="about-card-header">
               <div className="card-icon">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-                  <path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
-                </svg>
+                <i className="fas fa-eye"></i>
               </div>
               <h3>Vision</h3>
             </div>
-            <div className="about-card-body">
-              <p className="vision-text">{about.vision}</p>
-              <div className="vision-quote">
-                <svg className="quote-icon" viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z"/>
-                </svg>
-                <p>{about.vision}</p>
-              </div>
+            <p className="vision-text">{about.vision}</p>
+            <div className="vision-quote">
+              <i className="fas fa-quote-right quote-icon"></i>
+              <p>{about.vision}</p>
             </div>
           </div>
         </div>

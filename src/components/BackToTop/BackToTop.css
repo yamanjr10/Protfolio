@@ -1,3 +1,4 @@
+/* BackToTop.css - Modern Button */
 .back-to-top {
   position: fixed;
   bottom: 30px;
@@ -12,46 +13,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 4px;
-  box-shadow: var(--shadow-lg), 0 0 20px rgba(108, 158, 143, 0.3);
+  box-shadow: var(--shadow-lg);
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 999;
   animation: fadeIn 0.3s ease;
 }
 
-.back-to-top:hover {
-  transform: translateY(-5px) scale(1.05);
-  box-shadow: var(--shadow-xl), 0 0 30px rgba(108, 158, 143, 0.5);
-}
-
-.back-to-top:active {
-  transform: translateY(0) scale(0.95);
-}
-
-.back-to-top-icon {
-  width: 20px;
-  height: 20px;
+.back-to-top i {
+  font-size: 20px;
   transition: transform 0.3s ease;
 }
 
-.back-to-top:hover .back-to-top-icon {
+.back-to-top:hover {
+  transform: translateY(-5px) scale(1.05);
+  box-shadow: var(--shadow-xl), 0 0 20px rgba(99, 102, 241, 0.5);
+}
+
+.back-to-top:hover i {
   transform: translateY(-3px);
-}
-
-.back-to-top-text {
-  font-size: var(--font-size-xs);
-  font-weight: var(--font-weight-medium);
-  letter-spacing: 0.05em;
-  opacity: 0;
-  width: 0;
-  transition: all 0.3s ease;
-  white-space: nowrap;
-}
-
-.back-to-top:hover .back-to-top-text {
-  opacity: 1;
-  width: auto;
-  margin-left: 4px;
 }
 
 @keyframes fadeIn {
@@ -65,7 +44,6 @@
   }
 }
 
-/* Mobile responsive */
 @media (max-width: 768px) {
   .back-to-top {
     bottom: 20px;
@@ -74,26 +52,7 @@
     height: 45px;
   }
   
-  .back-to-top-icon {
-    width: 18px;
-    height: 18px;
-  }
-  
-  .back-to-top:hover .back-to-top-text {
-    display: none;
-  }
-}
-
-@media (max-width: 480px) {
-  .back-to-top {
-    bottom: 15px;
-    right: 15px;
-    width: 40px;
-    height: 40px;
-  }
-  
-  .back-to-top-icon {
-    width: 16px;
-    height: 16px;
+  .back-to-top i {
+    font-size: 18px;
   }
 }

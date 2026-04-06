@@ -1,10 +1,12 @@
-// Projects.jsx - Updated with proper theme support
-import React, { useEffect, useState } from 'react';
+// Projects.jsx - With Scroll Reveal & Pagination
+import React, { useEffect, useState, useMemo } from 'react';
 import './Projects.css';
 
 const Projects = ({ id }) => {
   const [projects, setProjects] = useState([]);
   const [filter, setFilter] = useState('all');
+  const [currentPage, setCurrentPage] = useState(1);
+  const itemsPerPage = 6;
 
   useEffect(() => {
     fetch('/data/projects.json')
@@ -13,90 +15,209 @@ const Projects = ({ id }) => {
       .catch(error => console.error('Error loading projects:', error));
   }, []);
 
-  const filteredProjects = filter === 'all' 
-    ? projects 
-    : projects.filter(p => p.featured);
+  const getStatusConfig = (status) => {
+    switch (status) {
+      case 'live':
+        return { label: 'LIVE DEMO', class: 'status-live', icon: 'fas fa-play-circle' };
+      case 'development':
+        return { label: 'IN DEVELOPMENT', class: 'status-development', icon: 'fas fa-code-branch' };
+      case 'completed':
+        return { label: 'COMPLETED', class: 'status-completed', icon: 'fas fa-check-circle' };
+      case 'coming-soon':
+        return { label: 'COMING SOON', class: 'status-coming-soon', icon: 'far fa-clock' };
+      default:
+        return { label: 'LIVE DEMO', class: 'status-live', icon: 'fas fa-play-circle' };
+    }
+  };
+
+  const filteredProjects = useMemo(() => {
+    if (filter === 'all') return projects;
+    if (filter === 'featured') return projects.filter(p => p.featured);
+    return projects.filter(p => p.status === filter);
+  }, [projects, filter]);
+
+  const totalPages = Math.ceil(filteredProjects.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const endIndex = startIndex + itemsPerPage;
+  const currentProjects = filteredProjects.slice(startIndex, endIndex);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filter]);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: document.getElementById(id).offsetTop - 100, behavior: 'smooth' });
+  };
+
+  const getPageNumbers = () => {
+    const pages = [];
+    const maxVisible = 5;
+    if (totalPages <= maxVisible) {
+      for (let i = 1; i <= totalPages; i++) pages.push(i);
+    } else {
+      if (currentPage <= 3) {
+        for (let i = 1; i <= 4; i++) pages.push(i);
+        pages.push('...');
+        pages.push(totalPages);
+      } else if (currentPage >= totalPages - 2) {
+        pages.push(1);
+        pages.push('...');
+        for (let i = totalPages - 3; i <= totalPages; i++) pages.push(i);
+      } else {
+        pages.push(1);
+        pages.push('...');
+        for (let i = currentPage - 1; i <= currentPage + 1; i++) pages.push(i);
+        pages.push('...');
+        pages.push(totalPages);
+      }
+    }
+    return pages;
+  };
+
+  const statusFilters = [
+    { key: 'all', label: 'All Projects', icon: 'fas fa-th-large' },
+    { key: 'live', label: 'Live Demo', icon: 'fas fa-play-circle' },
+    { key: 'development', label: 'In Development', icon: 'fas fa-code-branch' },
+    { key: 'completed', label: 'Completed', icon: 'fas fa-check-circle' },
+  ];
 
   return (
-    <section id={id} className="projects">
+    <section id={id} className="projects reveal">
       <div className="container">
         <div className="section-header">
-          <span className="section-subtitle">My Work</span>
+          <span className="section-subtitle">
+            <i className="fas fa-laptop-code"></i>
+            My Creative Work
+          </span>
           <h2 className="section-title">
             Featured <span className="gradient">Projects</span>
           </h2>
+          <div className="section-line"></div>
         </div>
 
         <div className="projects-filter">
-          <button 
-            className={`filter-btn ${filter === 'all' ? 'active' : ''}`}
-            onClick={() => setFilter('all')}
-          >
-            All Projects
-          </button>
-          <button 
-            className={`filter-btn ${filter === 'featured' ? 'active' : ''}`}
-            onClick={() => setFilter('featured')}
-          >
-            Featured
-          </button>
-        </div>
-
-        <div className="projects-grid">
-          {filteredProjects.map((project) => (
-            <div key={project.id} className="project-card">
-              <div className="project-image">
-                <img src={project.image} alt={project.title} />
-                <div className="project-overlay">
-                  <div className="project-links">
-                    <a 
-                      href={project.liveUrl} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="project-link"
-                    >
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
-                      </svg>
-                      <span>Live Demo</span>
-                    </a>
-                    <a 
-                      href={project.githubUrl} 
-                      target="_blank" 
-                      rel="noopener noreferrer"
-                      className="project-link"
-                    >
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M12 2C6.477 2 2 6.477 2 12c0 4.42 2.865 8.17 6.839 9.49.5.092.682-.217.682-.482 0-.237-.008-.866-.013-1.7-2.782.603-3.369-1.34-3.369-1.34-.454-1.156-1.11-1.462-1.11-1.462-.908-.62.069-.608.069-.608 1.003.07 1.531 1.03 1.531 1.03.892 1.529 2.341 1.087 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.11-4.555-4.943 0-1.091.39-1.984 1.03-2.682-.103-.253-.447-1.27.098-2.646 0 0 .84-.269 2.75 1.025.8-.223 1.65-.334 2.5-.334.85 0 1.7.111 2.5.334 1.91-1.294 2.75-1.025 2.75-1.025.545 1.376.201 2.393.099 2.646.64.698 1.03 1.591 1.03 2.682 0 3.841-2.337 4.687-4.565 4.935.359.309.678.919.678 1.852 0 1.336-.012 2.415-.012 2.743 0 .267.18.578.688.48C19.138 20.167 22 16.418 22 12c0-5.523-4.477-10-10-10z"/>
-                      </svg>
-                      <span>GitHub</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-              
-              <div className="project-content">
-                <h3 className="project-title">{project.title}</h3>
-                <p className="project-description">{project.description}</p>
-                
-                <div className="project-tech">
-                  {project.techStack.map((tech, index) => (
-                    <span key={index} className="tech-tag">{tech}</span>
-                  ))}
-                </div>
-                
-                {project.featured && (
-                  <span className="featured-badge">
-                    <svg viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
-                    </svg>
-                    Featured
-                  </span>
-                )}
-              </div>
-            </div>
+          {statusFilters.map((filterType) => (
+            <button 
+              key={filterType.key}
+              className={`filter-btn ${filter === filterType.key ? 'active' : ''}`}
+              onClick={() => setFilter(filterType.key)}
+            >
+              <i className={filterType.icon}></i>
+              {filterType.label}
+            </button>
           ))}
         </div>
+
+        <div className="projects-grid stagger-children">
+          {currentProjects.length > 0 ? (
+            currentProjects.map((project, index) => {
+              const statusConfig = getStatusConfig(project.status);
+              const isLiveUrlValid = project.liveUrl && 
+                project.liveUrl !== 'not-found or not online yet' && 
+                project.liveUrl !== '#';
+              
+              return (
+                <div key={project.id} className="project-card">
+                  <div className="project-image">
+                    <img src={project.image} alt={project.title} onError={(e) => {
+                      e.target.src = 'https://placehold.co/600x400/1e293b/8b5cf6?text=Project+Image';
+                    }} />
+                    
+                    <div className={`project-status-badge ${statusConfig.class}`}>
+                      <i className={statusConfig.icon}></i>
+                      <span>{statusConfig.label}</span>
+                    </div>
+                    
+                    {project.featured && (
+                      <div className="featured-badge">
+                        <i className="fas fa-crown"></i>
+                        <span>Featured</span>
+                      </div>
+                    )}
+                    
+                    <div className="project-overlay">
+                      <div className="project-links">
+                        {isLiveUrlValid && (
+                          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="project-link">
+                            <i className="fas fa-external-link-alt"></i>
+                            <span>Live Demo</span>
+                          </a>
+                        )}
+                        <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="project-link">
+                          <i className="fab fa-github"></i>
+                          <span>GitHub</span>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="project-content">
+                    <h3 className="project-title">{project.title}</h3>
+                    <p className="project-description">{project.description}</p>
+                    
+                    <div className="project-tech">
+                      {project.techStack.slice(0, 4).map((tech, idx) => (
+                        <span key={idx} className="tech-tag">{tech}</span>
+                      ))}
+                      {project.techStack.length > 4 && (
+                        <span className="tech-tag">+{project.techStack.length - 4}</span>
+                      )}
+                    </div>
+                    
+                    <div className="project-footer">
+                      <div className="project-stats">
+                        <div className="project-stat">
+                          <i className="far fa-calendar-alt"></i>
+                          <span>{new Date().getFullYear()}</span>
+                        </div>
+                        <div className="project-stat">
+                          <i className="fas fa-code"></i>
+                          <span>{project.techStack.length} tech</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <div className="no-results">
+              <div className="no-results-icon"><i className="fas fa-folder-open"></i></div>
+              <h3>No projects found</h3>
+              <p>Try changing the filter to see more projects</p>
+            </div>
+          )}
+        </div>
+
+        {totalPages > 1 && (
+          <div className="pagination">
+            <button className="pagination-btn" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
+              <i className="fas fa-chevron-left"></i> Previous
+            </button>
+            <div className="pagination-numbers">
+              {getPageNumbers().map((page, index) => (
+                page === '...' ? (
+                  <span key={`dots-${index}`} className="pagination-dots">...</span>
+                ) : (
+                  <button key={page} className={`pagination-number ${currentPage === page ? 'active' : ''}`} onClick={() => handlePageChange(page)}>
+                    {page}
+                  </button>
+                )
+              ))}
+            </div>
+            <button className="pagination-btn" onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>
+              Next <i className="fas fa-chevron-right"></i>
+            </button>
+          </div>
+        )}
+        
+        {filteredProjects.length > 0 && (
+          <div className="results-info">
+            <i className="fas fa-chart-line"></i>
+            Showing {startIndex + 1} - {Math.min(endIndex, filteredProjects.length)} of {filteredProjects.length} projects
+          </div>
+        )}
       </div>
     </section>
   );

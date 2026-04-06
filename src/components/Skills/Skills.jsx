@@ -1,29 +1,44 @@
-// Skills.jsx
-import React, { useState } from 'react';
+// Skills.jsx - With Scroll Reveal
+import React, { useState, useEffect, useRef } from 'react';
 import { skillsData } from '../../utils/skills';
 import './Skills.css';
 
 const Skills = ({ id }) => {
   const [skills] = useState(skillsData);
   const [activeCategory, setActiveCategory] = useState(skills.categories[0].id);
+  const [animated, setAnimated] = useState(false);
+  const sectionRef = useRef(null);
 
-  const getLevelColor = (level) => {
-    const colors = {
-      expert: '#8b5cf6',
-      advanced: '#14b8a6',
-      intermediate: '#ec4899',
-      beginner: '#f59e0b',
-      basic: '#64748b'
-    };
-    return colors[level] || colors.basic;
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !animated) {
+          setAnimated(true);
+        }
+      },
+      { threshold: 0.2 }
+    );
+    if (sectionRef.current) observer.observe(sectionRef.current);
+    return () => observer.disconnect();
+  }, [animated]);
+
+  const categoryIcons = {
+    frontend: 'fas fa-code',
+    backend: 'fas fa-server',
+    design: 'fas fa-palette',
+    tools: 'fas fa-tools'
   };
 
   return (
-    <section id={id} className="skills">
+    <section id={id} className="skills reveal" ref={sectionRef}>
       <div className="container">
         <div className="section-header">
-          <span className="section-subtitle">What I bring to the table</span>
+          <span className="section-subtitle">
+            <i className="fas fa-chart-line"></i>
+            What I bring to the table
+          </span>
           <h2 className="section-title">Skills & Expertise</h2>
+          <div className="section-line"></div>
         </div>
 
         <div className="skills-tabs">
@@ -33,6 +48,7 @@ const Skills = ({ id }) => {
               className={`skills-tab ${activeCategory === category.id ? 'active' : ''}`}
               onClick={() => setActiveCategory(category.id)}
             >
+              <i className={categoryIcons[category.id] || 'fas fa-cog'}></i>
               {category.name}
             </button>
           ))}
@@ -56,15 +72,10 @@ const Skills = ({ id }) => {
                         <div 
                           className="skill-bar"
                           style={{ 
-                            width: `${skill.percent}%`,
-                            backgroundColor: getLevelColor(skill.level),
-                            transitionDelay: `${index * 0.1}s`
+                            width: animated ? `${skill.percent}%` : '0%',
+                            transitionDelay: `${index * 0.1}s` 
                           }}
-                        >
-                          <span className="skill-bar-tooltip">
-                            {skill.level} • {skill.years}+ years
-                          </span>
-                        </div>
+                        ></div>
                       </div>
                     </div>
                   ))}
@@ -75,17 +86,12 @@ const Skills = ({ id }) => {
                     <div key={index} className="skill-mini-card">
                       <div className="skill-mini-header">
                         <span className="skill-mini-name">{skill.name}</span>
-                        <span className="skill-mini-level" style={{ color: getLevelColor(skill.level) }}>
-                          {skill.level}
-                        </span>
+                        <span className="skill-mini-level">{skill.level}</span>
                       </div>
                       <div className="skill-mini-progress">
                         <div 
                           className="skill-mini-progress-bar"
-                          style={{ 
-                            width: `${skill.percent}%`,
-                            backgroundColor: getLevelColor(skill.level)
-                          }}
+                          style={{ width: animated ? `${skill.percent}%` : '0%' }}
                         ></div>
                       </div>
                       <span className="skill-mini-years">{skill.years} years experience</span>
