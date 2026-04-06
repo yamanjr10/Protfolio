@@ -650,6 +650,6 @@ Made with ❤️ for developers and designers
 
 ---
 
-**Last Updated:** April 2026 | **v2.0.0** | **MIT License**
+**Last Updated:** April 2026 | **v1.0.0** | **MIT License**
 
 </div>
