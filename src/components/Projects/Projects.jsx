@@ -1,19 +1,37 @@
-// Projects.jsx - With Scroll Reveal & Pagination
+// components/Projects/Projects.jsx
 import React, { useEffect, useState, useMemo } from 'react';
+import '../Skeleton/Skeleton.css';
 import './Projects.css';
 
 const Projects = ({ id }) => {
   const [projects, setProjects] = useState([]);
   const [filter, setFilter] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(true);
   const itemsPerPage = 6;
 
   useEffect(() => {
+    // Load saved filter preference from localStorage
+    const savedFilter = localStorage.getItem('projectFilter');
+    if (savedFilter) setFilter(savedFilter);
+    
     fetch('/data/projects.json')
       .then(response => response.json())
-      .then(data => setProjects(data.projects))
-      .catch(error => console.error('Error loading projects:', error));
+      .then(data => {
+        setProjects(data.projects);
+        setLoading(false);
+      })
+      .catch(error => {
+        console.error('Error loading projects:', error);
+        setLoading(false);
+      });
   }, []);
+
+  const handleFilterChange = (newFilter) => {
+    setFilter(newFilter);
+    localStorage.setItem('projectFilter', newFilter);
+    setCurrentPage(1);
+  };
 
   const getStatusConfig = (status) => {
     switch (status) {
@@ -82,6 +100,26 @@ const Projects = ({ id }) => {
     { key: 'completed', label: 'Completed', icon: 'fas fa-check-circle' },
   ];
 
+  // Skeleton Loader Component
+  const ProjectSkeleton = () => (
+    <div className="skeleton-card">
+      <div className="skeleton-image"></div>
+      <div className="skeleton-content">
+        <div className="skeleton-title"></div>
+        <div className="skeleton-text"></div>
+        <div className="skeleton-tags">
+          <div className="skeleton-tag"></div>
+          <div className="skeleton-tag"></div>
+          <div className="skeleton-tag"></div>
+        </div>
+        <div className="skeleton-footer">
+          <div className="skeleton-stat"></div>
+          <div className="skeleton-stat"></div>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
     <section id={id} className="projects reveal">
       <div className="container">
@@ -101,7 +139,7 @@ const Projects = ({ id }) => {
             <button 
               key={filterType.key}
               className={`filter-btn ${filter === filterType.key ? 'active' : ''}`}
-              onClick={() => setFilter(filterType.key)}
+              onClick={() => handleFilterChange(filterType.key)}
             >
               <i className={filterType.icon}></i>
               {filterType.label}
@@ -110,8 +148,11 @@ const Projects = ({ id }) => {
         </div>
 
         <div className="projects-grid stagger-children">
-          {currentProjects.length > 0 ? (
-            currentProjects.map((project, index) => {
+          {loading ? (
+            // Show 6 skeleton cards while loading
+            Array(6).fill().map((_, index) => <ProjectSkeleton key={`skeleton-${index}`} />)
+          ) : currentProjects.length > 0 ? (
+            currentProjects.map((project) => {
               const statusConfig = getStatusConfig(project.status);
               const isLiveUrlValid = project.liveUrl && 
                 project.liveUrl !== 'not-found or not online yet' && 
@@ -120,9 +161,14 @@ const Projects = ({ id }) => {
               return (
                 <div key={project.id} className="project-card">
                   <div className="project-image">
-                    <img src={project.image} alt={project.title} onError={(e) => {
-                      e.target.src = 'https://placehold.co/600x400/1e293b/8b5cf6?text=Project+Image';
-                    }} />
+                    <img 
+                      src={project.image} 
+                      alt={project.title} 
+                      loading="lazy"
+                      onError={(e) => {
+                        e.target.src = 'https://placehold.co/600x400/1e293b/8b5cf6?text=Project+Image';
+                      }} 
+                    />
                     
                     <div className={`project-status-badge ${statusConfig.class}`}>
                       <i className={statusConfig.icon}></i>
@@ -190,7 +236,7 @@ const Projects = ({ id }) => {
           )}
         </div>
 
-        {totalPages > 1 && (
+        {!loading && totalPages > 1 && (
           <div className="pagination">
             <button className="pagination-btn" onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>
               <i className="fas fa-chevron-left"></i> Previous
@@ -212,7 +258,7 @@ const Projects = ({ id }) => {
           </div>
         )}
         
-        {filteredProjects.length > 0 && (
+        {!loading && filteredProjects.length > 0 && (
           <div className="results-info">
             <i className="fas fa-chart-line"></i>
             Showing {startIndex + 1} - {Math.min(endIndex, filteredProjects.length)} of {filteredProjects.length} projects

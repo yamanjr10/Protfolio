@@ -17,11 +17,13 @@ const Contact = ({ id }) => {
   });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [lastSubmission, setLastSubmission] = useState(0);
+  const RATE_LIMIT_MS = 60000; // 1 minute
 
-  // Your EmailJS credentials
-  const EMAILJS_PUBLIC_KEY = '1cT-Daq3z-xkVX_An';
-  const EMAILJS_SERVICE_ID = 'service_h0tzywg';
-  const EMAILJS_TEMPLATE_ID = 'template_klhjrfs';
+  // EmailJS credentials from environment variables
+  const EMAILJS_PUBLIC_KEY = process.env.REACT_APP_EMAILJS_PUBLIC_KEY;
+  const EMAILJS_SERVICE_ID = process.env.REACT_APP_EMAILJS_SERVICE_ID;
+  const EMAILJS_TEMPLATE_ID = process.env.REACT_APP_EMAILJS_TEMPLATE_ID;
 
   useEffect(() => {
     // Initialize EmailJS
@@ -31,7 +33,7 @@ const Contact = ({ id }) => {
       .then(response => response.json())
       .then(data => setSocial(data))
       .catch(error => console.error('Error loading social:', error));
-  }, []);
+  }, [EMAILJS_PUBLIC_KEY]);
 
   const validateForm = () => {
     const newErrors = {};
@@ -39,6 +41,7 @@ const Contact = ({ id }) => {
     if (!formData.email.trim()) newErrors.email = 'Email is required';
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) newErrors.email = 'Please enter a valid email';
     if (!formData.message.trim()) newErrors.message = 'Message is required';
+    else if (formData.message.trim().length < 10) newErrors.message = 'Message must be at least 10 characters';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -62,6 +65,24 @@ const Contact = ({ id }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     
+    // Rate limiting check
+    const now = Date.now();
+    const timeSinceLastSubmission = now - lastSubmission;
+    
+    if (timeSinceLastSubmission < RATE_LIMIT_MS) {
+      const waitSeconds = Math.ceil((RATE_LIMIT_MS - timeSinceLastSubmission) / 1000);
+      setFormStatus({
+        submitted: true,
+        success: false,
+        message: `⏳ Please wait ${waitSeconds} second${waitSeconds !== 1 ? 's' : ''} before sending another message.`
+      });
+      
+      setTimeout(() => {
+        setFormStatus(prev => ({ ...prev, submitted: false }));
+      }, 5000);
+      return;
+    }
+    
     if (!validateForm()) return;
     
     setIsSubmitting(true);
@@ -81,6 +102,8 @@ const Contact = ({ id }) => {
       );
       
       console.log('Email sent successfully:', response);
+      
+      setLastSubmission(now); // Update last submission time
       
       setFormStatus({
         submitted: true,
@@ -150,7 +173,10 @@ const Contact = ({ id }) => {
                 <div className="contact-icon"><i className="fas fa-envelope"></i></div>
                 <div>
                   <span className="contact-label">Email</span>
-                  <a href="mailto:jryaman100@gmail.com" className="contact-value">jryaman100@gmail.com</a>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+                    <a href="mailto:jryaman100@gmail.com" className="contact-value">jryaman100@gmail.com</a>
+                    <CopyEmailButton email="jryaman100@gmail.com" />
+                  </div>
                 </div>
               </div>
               <div className="contact-detail-item">
@@ -171,7 +197,7 @@ const Contact = ({ id }) => {
                 <h4>Quick Chat on WhatsApp</h4>
                 <p>Get a faster response. Click below to start a conversation!</p>
                 <a 
-                  href="https://wa.me/9779800000000?text=Hi%20Yaman%2C%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20connect!" 
+                  href="https://wa.me/9779713512703?text=Hi%20Yaman%2C%20I%20saw%20your%20portfolio%20and%20would%20like%20to%20connect!" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   className="whatsapp-contact-btn"
@@ -278,6 +304,46 @@ const Contact = ({ id }) => {
         </div>
       </div>
     </section>
+  );
+};
+
+// Copy Email Button Component
+const CopyEmailButton = ({ email }) => {
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(email);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  };
+
+  return (
+    <button 
+      onClick={handleCopy}
+      style={{
+        background: 'var(--gradient-primary)',
+        border: 'none',
+        padding: '4px 12px',
+        borderRadius: '20px',
+        fontSize: '12px',
+        fontWeight: '500',
+        color: 'white',
+        cursor: 'pointer',
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '6px',
+        transition: 'all 0.3s ease'
+      }}
+      onMouseEnter={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
+      onMouseLeave={(e) => e.currentTarget.style.transform = 'translateY(0)'}
+    >
+      <i className={`fas ${copied ? 'fa-check' : 'fa-copy'}`}></i>
+      <span>{copied ? 'Copied!' : 'Copy'}</span>
+    </button>
   );
 };
 
