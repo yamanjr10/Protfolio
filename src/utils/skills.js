@@ -37,7 +37,6 @@ export const skillsData = {
       skills: [
         { name: 'VS Code', level: 'advanced', years: 2, percent: 80 },
         { name: 'GitHub', level: 'intermediate', years: 1, percent: 60 },
-        { name: 'Windows PowerShell', level: 'basic', years: 1, percent: 20 }
       ]
     }
   ]
