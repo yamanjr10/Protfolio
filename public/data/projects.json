@@ -54,7 +54,7 @@
       "id": 6,
       "title": "AnimeX - Anime Streaming Platform",
       "description": "AnimeX is a modern anime streaming platform that offers a vast collection of anime series and movies. With a user-friendly interface and high-quality streaming, users can enjoy their favorite anime anytime, anywhere.",
-      "image": "/assets/images/projects/anime-x.png",
+      "image": "/assets/images/projects/animeX.png",
       "techStack": ["HTML", "CSS", "Javascript", "React", "Node.js", "MongoDB"],
       "liveUrl": "#",
       "githubUrl": "https://github.com/yamanjr10/AnimeX",
