@@ -581,8 +581,8 @@ git push origin feature/YourFeature
 
 ### 📱 Connect
 - **GitHub:** [@yamanjr10](https://github.com/yamanjr10)
-- **Facebook:** [yamanjr101](https://www.facebook.com/yamanjr101)
-- **Instagram:** [@yamanjr101](https://instagram.com/yamanjr101)
+- **Facebook:** [yamanjr101](https://www.facebook.com/yamanjrexe)
+- **Instagram:** [@yamanjr101](https://instagram.com/yamanjr.exe)
 - **Email:** jryaman100@gmail.com
 - **Location:** 🇳🇵 Nepal
 
