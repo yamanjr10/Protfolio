@@ -588,7 +588,7 @@ git push origin feature/YourFeature
 
 ### 🔗 Links
 - **Repository:** [github.com/yamanjr10/Protfolio](https://github.com/yamanjr10/Protfolio.git)
-- **Live Site:** [yamanchapagain.netlify.app](https://yamanchapagin.netlify.app/)
+- **Live Site:** [yamanchapagain.netlify.app](https://yamanchapagain.netlify.app/)
 - **Version:** 2.0.0
 
 ---
