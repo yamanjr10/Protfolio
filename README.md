@@ -9,7 +9,7 @@
 > 
 > A clean, modern, and fully responsive portfolio website designed to showcase your professional work, skills, projects, and achievements. Built with React, this portfolio features smooth animations, dark mode support, advanced animations, and a configuration-driven system for easy customization.
 
-🌐 **[Live Demo](https://yamanchapagin.netlify.app/)** • 📚 **[GitHub Repo](https://github.com/yamanjr10/Protfolio.git)** • 📧 **[Contact](mailto:jryaman100@gmail.com)**
+🌐 **[Live Demo](https://yamanchapagain.netlify.app/)** • 📚 **[GitHub Repo](https://github.com/yamanjr10/Protfolio.git)** • 📧 **[Contact](mailto:jryaman100@gmail.com)**
 
 ---
 
@@ -588,7 +588,7 @@ git push origin feature/YourFeature
 
 ### 🔗 Links
 - **Repository:** [github.com/yamanjr10/Protfolio](https://github.com/yamanjr10/Protfolio.git)
-- **Live Site:** [yamanchapagin.netlify.app](https://yamanchapagin.netlify.app/)
+- **Live Site:** [yamanchapagain.netlify.app](https://yamanchapagin.netlify.app/)
 - **Version:** 2.0.0
 
 ---
@@ -640,7 +640,7 @@ Questions or feedback?
 
 ### 🎊 Showcase Your Portfolio Today!
 
-**[🌐 Live Demo](https://yamanchapagin.netlify.app/)** • **[⭐ GitHub](https://github.com/yamanjr10/Protfolio.git)** • **[💌 Contact](mailto:jryaman100@gmail.com)**
+**[🌐 Live Demo](https://yamanchapagain.netlify.app/)** • **[⭐ GitHub](https://github.com/yamanjr10/Protfolio.git)** • **[💌 Contact](mailto:jryaman100@gmail.com)**
 
 ---
 
